@@ -99,20 +99,10 @@ struct ProfileView: View {
 
                         // Account Actions
                         VStack(spacing: Spacing.md) {
-                            Button {
+                            SecondaryButton("Log Out") {
                                 // Handle logout
-                            } label: {
-                                HStack {
-                                    Image(systemName: "rectangle.portrait.and.arrow.right")
-                                    Text("Log Out")
-                                }
-                                .foregroundStyle(DesignSystem.Colors.destructive)
-                                .frame(maxWidth: .infinity)
-                                .padding(Spacing.lg)
-                                .background(DesignSystem.Colors.secondary)
-                                .cornerRadius(Corners.lg)
                             }
-
+                            
                             Button {
                                 showingDeleteConfirmation = true
                             } label: {

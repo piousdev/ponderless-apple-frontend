@@ -174,17 +174,8 @@ struct DailyReflectionCard: View {
                 .foregroundStyle(DesignSystem.Colors.secondaryForeground)
                 .fixedSize(horizontal: false, vertical: true)
 
-            Button(action: onStart) {
-                HStack {
-                    Text("Start Reflecting")
-                    Image(systemName: "arrow.right")
-                }
-                .fontWeight(.medium)
-                .foregroundStyle(DesignSystem.Colors.primaryForeground)
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(DesignSystem.Colors.primary)
-                .clipShape(RoundedRectangle(cornerRadius: Corners.md))
+            PrimaryButton("Start Reflecting") {
+                onStart()
             }
         }
         .padding()

@@ -67,7 +67,7 @@ struct OnboardingView: View {
                 }
 
                 // Action Button
-                Button {
+                PrimaryButton(currentPage < pages.count - 1 ? "Next" : "Get Started") {
                     if currentPage < pages.count - 1 {
                         withAnimation {
                             currentPage += 1
@@ -75,22 +75,13 @@ struct OnboardingView: View {
                     } else {
                         completeOnboarding()
                     }
-                } label: {
-                    Text(currentPage < pages.count - 1 ? "Next" : "Get Started")
-                        .fontWeight(.semibold)
-                        .frame(maxWidth: .infinity)
-                        .padding(Spacing.lg)
-                        .background(DesignSystem.Colors.primary)
-                        .foregroundStyle(DesignSystem.Colors.primaryForeground)
-                        .cornerRadius(Corners.lg)
                 }
 
                 // Skip Button
                 if currentPage < pages.count - 1 {
-                    Button("Skip") {
+                    CompactSecondaryButton("Skip") {
                         completeOnboarding()
                     }
-                    .foregroundStyle(DesignSystem.Colors.secondaryForeground)
                 }
             }
             .padding(.horizontal, Spacing.xxl)

@@ -381,7 +381,7 @@ final class AppState {
         if let index = calibrationRecords.firstIndex(where: {
             Calendar.current.isDateInToday($0.date)
         }) {
-            var record = calibrationRecords[index]
+            let record = calibrationRecords[index]
             var predictions = record.predictions
             predictions.append(prediction)
 

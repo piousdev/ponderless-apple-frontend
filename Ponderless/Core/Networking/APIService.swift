@@ -136,7 +136,7 @@ actor APIService {
 
 // MARK: - Response Models
 
-struct ExerciseResult: Codable {
+struct ExerciseResult: Codable, Sendable {
     let score: Double
     let passed: Bool
     let feedback: String

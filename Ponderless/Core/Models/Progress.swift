@@ -126,7 +126,7 @@ struct WeeklyStats: Codable, Hashable, Sendable {
 }
 
 /// User achievements and milestones
-struct Achievement: Codable, Sendable {
+struct Achievement: Codable, Hashable, Sendable {
     let id: UUID
     let name: String
     let description: String
@@ -143,27 +143,6 @@ struct Achievement: Codable, Sendable {
     }
 }
 
-// MARK: - Nonisolated Hashable Conformance
-
-extension Achievement: Hashable {
-    nonisolated func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-        hasher.combine(name)
-        hasher.combine(description)
-        hasher.combine(icon)
-        hasher.combine(unlockedAt)
-        hasher.combine(type)
-    }
-    
-    nonisolated static func == (lhs: Achievement, rhs: Achievement) -> Bool {
-        lhs.id == rhs.id &&
-        lhs.name == rhs.name &&
-        lhs.description == rhs.description &&
-        lhs.icon == rhs.icon &&
-        lhs.unlockedAt == rhs.unlockedAt &&
-        lhs.type == rhs.type
-    }
-}
 
 // MARK: - Calendar Extension
 

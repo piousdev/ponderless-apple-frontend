@@ -27,6 +27,17 @@ enum CoachType: String, CaseIterable, Codable, Sendable, Identifiable {
         }
     }
 
+    var description: String {
+        switch self {
+        case .challenger:
+            return "Stress-test your ideas and identify blind spots"
+        case .navigator:
+            return "Break down complex problems systematically"
+        case .explorer:
+            return "Discover creative alternatives and new perspectives"
+        }
+    }
+
     var icon: String {
         switch self {
         case .challenger: return "shield.lefthalf.filled"
