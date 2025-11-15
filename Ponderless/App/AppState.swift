@@ -34,12 +34,13 @@ final class AppState {
     var calibrationRecords: [CalibrationRecord] = []
     var trainingProgress: TrainingProgress = TrainingProgress(
         userId: UUID(),
-        skillProgress: [:],
-        dailyStreak: 0,
-        totalStars: 0,
-        totalExercisesCompleted: 0,
-        averageAccuracy: 0.0,
-        lastTrainingDate: nil
+        skillProgress: AppState.createMockSkillProgress(),
+        dailyStreak: 12,
+        totalStars: 156,
+        totalExercisesCompleted: 47,
+        averageAccuracy: 0.84,
+        lastTrainingDate: Date(),
+        completedExerciseIds: []
     )
     var activeChatSessions: [CoachType: ChatSession] = [:]
 
@@ -52,6 +53,45 @@ final class AppState {
     // Premium state
     var isPremiumUser: Bool = false
     var availableFeatures: Set<Feature> = [.basicLessons, .dailyReflection]
+
+    // MARK: - Mock Data
+
+    static func createMockSkillProgress() -> [SkillCategory: TrainingProgress.SkillProgress] {
+        return [
+            .evidenceLiteracy: TrainingProgress.SkillProgress(
+                level: 7,
+                experience: 342,
+                exercisesCompleted: 18,
+                accuracy: 0.87,
+                lastPracticed: Date().addingTimeInterval(-86400), // 1 day ago
+                masteryLevel: .advanced
+            ),
+            .biasRecognition: TrainingProgress.SkillProgress(
+                level: 5,
+                experience: 189,
+                exercisesCompleted: 12,
+                accuracy: 0.82,
+                lastPracticed: Date().addingTimeInterval(-172800), // 2 days ago
+                masteryLevel: .proficient
+            ),
+            .probabilityFundamentals: TrainingProgress.SkillProgress(
+                level: 3,
+                experience: 127,
+                exercisesCompleted: 9,
+                accuracy: 0.78,
+                lastPracticed: Date().addingTimeInterval(-259200), // 3 days ago
+                masteryLevel: .developing
+            ),
+            .metacognition: TrainingProgress.SkillProgress(
+                level: 4,
+                experience: 253,
+                exercisesCompleted: 8,
+                accuracy: 0.91,
+                lastPracticed: Date(),
+                masteryLevel: .proficient
+            )
+        ]
+    }
 
     init() {
         // Only synchronous initialization here
@@ -302,6 +342,9 @@ final class AppState {
 
     @MainActor
     func completeTrainingExercise(_ exercise: TrainingExercise, accuracy: Double) {
+        // Mark exercise as completed
+        trainingProgress.completedExerciseIds.insert(exercise.id)
+        
         trainingProgress.totalExercisesCompleted += 1
         trainingProgress.lastTrainingDate = Date()
 
@@ -554,7 +597,81 @@ enum AppError: LocalizedError {
 
 struct User: Codable {
     let id: UUID
-    let name: String
-    let email: String
+    var name: String
+    var email: String
     let joinedAt: Date
+    
+    // Profile Information
+    var bio: String?
+    var profileImageURL: String?
+    var avatarColor: String?
+    
+    // Learning Preferences
+    var dailyGoal: Int
+    var preferredDifficulty: Difficulty
+    var focusAreas: Set<SkillCategory>
+    var preferredSessionDuration: SessionDuration
+    
+    // Optional Details
+    var timeZone: TimeZone
+    var learningStyle: LearningStyle?
+    var currentRole: String?
+    var primaryGoal: PrimaryGoal?
+    
+    init(
+        id: UUID = UUID(),
+        name: String,
+        email: String,
+        joinedAt: Date = Date(),
+        bio: String? = nil,
+        profileImageURL: String? = nil,
+        avatarColor: String? = nil,
+        dailyGoal: Int = 3,
+        preferredDifficulty: Difficulty = .intermediate,
+        focusAreas: Set<SkillCategory> = [],
+        preferredSessionDuration: SessionDuration = .medium,
+        timeZone: TimeZone = .current,
+        learningStyle: LearningStyle? = nil,
+        currentRole: String? = nil,
+        primaryGoal: PrimaryGoal? = nil
+    ) {
+        self.id = id
+        self.name = name
+        self.email = email
+        self.joinedAt = joinedAt
+        self.bio = bio
+        self.profileImageURL = profileImageURL
+        self.avatarColor = avatarColor
+        self.dailyGoal = dailyGoal
+        self.preferredDifficulty = preferredDifficulty
+        self.focusAreas = focusAreas
+        self.preferredSessionDuration = preferredSessionDuration
+        self.timeZone = timeZone
+        self.learningStyle = learningStyle
+        self.currentRole = currentRole
+        self.primaryGoal = primaryGoal
+    }
+}
+
+// MARK: - User Profile Enums
+
+enum SessionDuration: String, Codable, CaseIterable {
+    case short = "Short (5-10 min)"
+    case medium = "Medium (10-20 min)"
+    case long = "Long (20+ min)"
+}
+
+enum LearningStyle: String, Codable, CaseIterable {
+    case visual = "Visual"
+    case reading = "Reading"
+    case interactive = "Interactive"
+    case mixed = "Mixed"
+}
+
+enum PrimaryGoal: String, Codable, CaseIterable {
+    case decisionMaking = "Improve Decision Making"
+    case academicGrowth = "Academic Growth"
+    case professionalDevelopment = "Professional Development"
+    case personalEnrichment = "Personal Enrichment"
+    case criticalThinking = "Enhance Critical Thinking"
 }

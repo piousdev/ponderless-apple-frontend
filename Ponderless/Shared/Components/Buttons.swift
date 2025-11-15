@@ -273,12 +273,18 @@ private struct PressedIconButton3DStyle: ButtonStyle {
 // MARK: - Button Styles
 
 /// Custom button style that creates 3D pressed effect
-private struct PressedButton3DStyle: ButtonStyle {
-    let backgroundColor: Color
-    let shadowColor: Color
-    let hapticStyle: UIImpactFeedbackGenerator.FeedbackStyle
+public struct PressedButton3DStyle: ButtonStyle {
+    public let backgroundColor: Color
+    public let shadowColor: Color
+    public let hapticStyle: UIImpactFeedbackGenerator.FeedbackStyle
     
-    func makeBody(configuration: Configuration) -> some View {
+    public init(backgroundColor: Color, shadowColor: Color, hapticStyle: UIImpactFeedbackGenerator.FeedbackStyle) {
+        self.backgroundColor = backgroundColor
+        self.shadowColor = shadowColor
+        self.hapticStyle = hapticStyle
+    }
+    
+    public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .background(
                 ZStack {

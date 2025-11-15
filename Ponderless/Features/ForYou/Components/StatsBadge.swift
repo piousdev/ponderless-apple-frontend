@@ -24,9 +24,11 @@ struct StatsBadge: View {
                 Text(value)
                     .font(Typography.body.bold())
                     .foregroundStyle(DesignSystem.Colors.foreground)
+                    .lineLimit(1)
             }
             .padding(.horizontal, Spacing.lg)
             .padding(.vertical, Spacing.md)
+            .fixedSize(horizontal: true, vertical: false)
             .frame(minHeight: Spacing.Layout.minTouchTarget)
             .background(DesignSystem.Colors.secondary)
             .clipShape(Capsule())
@@ -60,6 +62,47 @@ struct StatsBadge: View {
         iconColor: DesignSystem.Colors.chart5,
         action: {}
     )
+    .padding()
+}
+
+#Preview("Large Numbers") {
+    VStack(spacing: Spacing.md) {
+        HStack(spacing: Spacing.sm) {
+            StatsBadge(
+                icon: "flame.fill",
+                value: "999",
+                label: "Daily streak",
+                iconColor: DesignSystem.Colors.chart3,
+                action: {}
+            )
+            
+            StatsBadge(
+                icon: "star.fill",
+                value: "9999",
+                label: "Total stars",
+                iconColor: DesignSystem.Colors.chart5,
+                action: {}
+            )
+        }
+        
+        HStack(spacing: Spacing.sm) {
+            StatsBadge(
+                icon: "flame.fill",
+                value: "12",
+                label: "Daily streak",
+                iconColor: DesignSystem.Colors.chart3,
+                action: {}
+            )
+            
+            StatsBadge(
+                icon: "star.fill",
+                value: "156",
+                label: "Total stars",
+                iconColor: DesignSystem.Colors.chart5,
+                action: {}
+            )
+        }
+    }
     .padding()
 }
 

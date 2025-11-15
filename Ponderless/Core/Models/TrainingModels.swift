@@ -187,6 +187,7 @@ struct TrainingProgress: Codable, Hashable, Sendable {
     var totalExercisesCompleted: Int
     var averageAccuracy: Double
     var lastTrainingDate: Date?
+    var completedExerciseIds: Set<UUID>
 
     struct SkillProgress: Codable, Hashable, Sendable {
         var level: Int
@@ -202,6 +203,148 @@ struct TrainingProgress: Codable, Hashable, Sendable {
             case proficient = "Proficient"
             case advanced = "Advanced"
             case expert = "Expert"
+        }
+    }
+}
+
+
+// MARK: - Mock Data
+
+extension TrainingExercise {
+    static func mockExercises(for category: SkillCategory) -> [TrainingExercise] {
+        switch category {
+        case .evidenceLiteracy:
+            return [
+                TrainingExercise(
+                    title: "Source Credibility Assessment",
+                    skillCategory: SkillCategory.evidenceLiteracy,
+                    duration: 120,
+                    difficulty: Difficulty.beginner,
+                    scenario: "Evaluate the reliability of different information sources",
+                    exercises: [],
+                    learningPoints: ["Assess source expertise", "Check for conflicts of interest", "Verify publication standards"]
+                ),
+                TrainingExercise(
+                    title: "Correlation vs Causation",
+                    skillCategory: SkillCategory.evidenceLiteracy,
+                    duration: 120,
+                    difficulty: Difficulty.intermediate,
+                    scenario: "Distinguish between correlated and causal relationships",
+                    exercises: [],
+                    learningPoints: ["Identify confounding variables", "Understand temporal relationships", "Evaluate experimental design"]
+                ),
+                TrainingExercise(
+                    title: "Statistical Reasoning",
+                    skillCategory: SkillCategory.evidenceLiteracy,
+                    duration: 150,
+                    difficulty: Difficulty.advanced,
+                    scenario: "Analyze statistical claims and methodologies",
+                    exercises: [],
+                    learningPoints: ["Understand sample sizes", "Evaluate confidence intervals", "Assess statistical significance"]
+                )
+            ]
+            
+        case .biasRecognition:
+            return [
+                TrainingExercise(
+                    title: "Confirmation Bias Detection",
+                    skillCategory: SkillCategory.biasRecognition,
+                    duration: 120,
+                    difficulty: Difficulty.beginner,
+                    scenario: "Recognize when you're favoring information that confirms your beliefs",
+                    exercises: [],
+                    learningPoints: ["Identify selective attention", "Challenge assumptions", "Seek disconfirming evidence"]
+                ),
+                TrainingExercise(
+                    title: "Anchoring Bias Awareness",
+                    skillCategory: SkillCategory.biasRecognition,
+                    duration: 120,
+                    difficulty: Difficulty.intermediate,
+                    scenario: "Notice how initial information affects your judgments",
+                    exercises: [],
+                    learningPoints: ["Recognize first impressions", "Adjust from anchors", "Use multiple reference points"]
+                ),
+                TrainingExercise(
+                    title: "Availability Heuristic",
+                    skillCategory: SkillCategory.biasRecognition,
+                    duration: 120,
+                    difficulty: Difficulty.intermediate,
+                    scenario: "Understand how recent or memorable events skew perception",
+                    exercises: [],
+                    learningPoints: ["Consider base rates", "Look beyond vivid examples", "Gather systematic data"]
+                ),
+                TrainingExercise(
+                    title: "Base Rate Neglect",
+                    skillCategory: SkillCategory.biasRecognition,
+                    duration: 150,
+                    difficulty: Difficulty.advanced,
+                    scenario: "Learn to incorporate statistical base rates in decisions",
+                    exercises: [],
+                    learningPoints: ["Identify prior probabilities", "Update beliefs systematically", "Avoid representativeness errors"]
+                )
+            ]
+            
+        case .probabilityFundamentals:
+            return [
+                TrainingExercise(
+                    title: "Expressing Uncertainty",
+                    skillCategory: SkillCategory.probabilityFundamentals,
+                    duration: 120,
+                    difficulty: Difficulty.beginner,
+                    scenario: "Learn to express beliefs as probabilities",
+                    exercises: [],
+                    learningPoints: ["Convert feelings to percentages", "Understand probability scales", "Calibrate confidence"]
+                ),
+                TrainingExercise(
+                    title: "Base Rate Integration",
+                    skillCategory: SkillCategory.probabilityFundamentals,
+                    duration: 120,
+                    difficulty: Difficulty.intermediate,
+                    scenario: "Combine specific evidence with general base rates",
+                    exercises: [],
+                    learningPoints: ["Apply Bayes' theorem", "Weight prior information", "Update beliefs rationally"]
+                ),
+                TrainingExercise(
+                    title: "Bayesian Updating",
+                    skillCategory: SkillCategory.probabilityFundamentals,
+                    duration: 150,
+                    difficulty: Difficulty.advanced,
+                    scenario: "Master systematic belief revision with new evidence",
+                    exercises: [],
+                    learningPoints: ["Calculate likelihood ratios", "Track belief changes", "Avoid over-updating"]
+                )
+            ]
+            
+        case .metacognition:
+            return [
+                TrainingExercise(
+                    title: "Confidence Calibration",
+                    skillCategory: SkillCategory.metacognition,
+                    duration: 120,
+                    difficulty: Difficulty.beginner,
+                    scenario: "Align your confidence levels with actual accuracy",
+                    exercises: [],
+                    learningPoints: ["Assess your certainty", "Track prediction outcomes", "Adjust confidence appropriately"]
+                ),
+                TrainingExercise(
+                    title: "Recognizing Knowledge Gaps",
+                    skillCategory: SkillCategory.metacognition,
+                    duration: 120,
+                    difficulty: Difficulty.intermediate,
+                    scenario: "Identify what you don't know that matters",
+                    exercises: [],
+                    learningPoints: ["Question assumptions", "Seek missing information", "Acknowledge uncertainty"]
+                ),
+                TrainingExercise(
+                    title: "Decision Quality Review",
+                    skillCategory: SkillCategory.metacognition,
+                    duration: 150,
+                    difficulty: Difficulty.advanced,
+                    scenario: "Evaluate your decision-making process systematically",
+                    exercises: [],
+                    learningPoints: ["Review thought patterns", "Learn from outcomes", "Improve future decisions"]
+                )
+            ]
         }
     }
 }
